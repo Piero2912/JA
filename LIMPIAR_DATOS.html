@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Limpiar Datos del Juego</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a1a2e;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .container {
+            background: #16213e;
+            border: 2px solid #0f3460;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        h1 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+            font-size: 2.5rem;
+        }
+        
+        p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            color: #ccc;
+            line-height: 1.6;
+        }
+        
+        .warning {
+            background: rgba(255, 100, 0, 0.2);
+            border-left: 4px solid #ff6400;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+            color: #ffaa66;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .btn-clean-game2 {
+            background: #ff6b35;
+            color: white;
+        }
+        
+        .btn-clean-game2:hover {
+            background: #ff5500;
+            transform: scale(1.05);
+        }
+        
+        .btn-clean-all {
+            background: #cc0000;
+            color: white;
+        }
+        
+        .btn-clean-all:hover {
+            background: #990000;
+            transform: scale(1.05);
+        }
+        
+        .btn-back {
+            background: #0066cc;
+            color: white;
+        }
+        
+        .btn-back:hover {
+            background: #0052a3;
+            transform: scale(1.05);
+        }
+        
+        .status {
+            margin-top: 30px;
+            padding: 20px;
+            background: rgba(0, 200, 100, 0.1);
+            border-left: 4px solid #00c864;
+            border-radius: 4px;
+            display: none;
+            font-size: 1.2rem;
+            color: #00c864;
+        }
+        
+        .status.show {
+            display: block;
+        }
+        
+        .status.error {
+            background: rgba(200, 0, 0, 0.1);
+            border-left-color: #c80000;
+            color: #ff6666;
+        }
+        
+        code {
+            background: #0a1428;
+            padding: 10px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 15px;
+            font-size: 0.9rem;
+            color: #00ff00;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧹 Limpiar Datos</h1>
+        
+        <p>Si los versículos se repiten, usa estos botones para limpiar los datos guardados:</p>
+        
+        <div class="warning">
+            ⚠️ <strong>IMPORTANTE:</strong> Esto borrará todo el progreso guardado.
+        </div>
+        
+        <div class="button-group">
+            <button class="btn-clean-game2" onclick="limpiarGame2()">
+                🧹 Limpiar Game 2
+            </button>
+            <button class="btn-clean-all" onclick="limpiarTodo()">
+                🗑️ Limpiar TODO
+            </button>
+            <button class="btn-back" onclick="volverAlJuego()">
+                ← Volver al Juego
+            </button>
+        </div>
+        
+        <div class="status" id="status"></div>
+        
+        <p style="margin-top: 40px; font-size: 0.9rem; color: #666;">
+            Después de limpiar, <strong>recarga el juego</strong> para que cargue todo de cero.
+        </p>
+        
+        <code>Storage.clearGame2Data() // Para limpiar solo Game 2</code>
+    </div>
+
+    <script>
+        function limpiarGame2() {
+            if (confirm('¿Seguro que quieres limpiar los datos de Game 2?')) {
+                // Limpiar localStorage directamente
+                localStorage.removeItem('desafio_game2_verses');
+                localStorage.removeItem('desafio_game2_session');
+                localStorage.removeItem('desafio_game2_used_verses');
+                
+                mostrarEstado('✅ Datos de Game 2 limpiados correctamente. Recarga el juego para que cargue todo de cero.');
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }
+        }
+
+        function limpiarTodo() {
+            if (confirm('⚠️ ¿Seguro que quieres limpiar TODO? Se borrará todo el progreso.')) {
+                // Limpiar todo lo que comience con 'desafio_'
+                const keys = Object.keys(localStorage);
+                keys.forEach(key => {
+                    if (key.startsWith('desafio_')) {
+                        localStorage.removeItem(key);
+                    }
+                });
+                
+                mostrarEstado('✅ Todos los datos han sido limpiados. Redirigiendo al juego...', false);
+                
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 2000);
+            }
+        }
+
+        function volverAlJuego() {
+            window.location.href = 'index.html';
+        }
+
+        function mostrarEstado(mensaje, esError = false) {
+            const status = document.getElementById('status');
+            status.textContent = mensaje;
+            status.classList.add('show');
+            if (esError) {
+                status.classList.add('error');
+            } else {
+                status.classList.remove('error');
+            }
+        }
+
+        // AUTO-CLEAN al cargar si hay datos corruptos
+        window.addEventListener('load', () => {
+            const game2Used = localStorage.getItem('desafio_game2_used_verses');
+            const game2Verses = localStorage.getItem('desafio_game2_verses');
+            
+            let infoTexto = '📊 Estado actual:<br>';
+            if (game2Used) {
+                const usedIds = JSON.parse(game2Used);
+                infoTexto += `Versículos usados: ${usedIds.length}/100<br>`;
+            } else {
+                infoTexto += 'Versículos usados: 0/100<br>';
+            }
+            
+            // Detectar datos corruptos: si hay menos de 100 versículos guardados
+            if (game2Verses) {
+                try {
+                    const verses = JSON.parse(game2Verses);
+                    if (verses.length < 100) {
+                        console.warn('⚠️ Datos corruptos detectados: solo ' + verses.length + ' versículos');
+                        infoTexto += '<br><br>⚠️ DATOS CORRUPTOS DETECTADOS';
+                    }
+                } catch (e) {
+                    console.error('Error al parsear versículos');
+                }
+            }
+            
+            console.log(infoTexto);
+        });
+        
+        // Ejecutar limpieza automáticamente si se detectan problemas
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                const game2Verses = localStorage.getItem('desafio_game2_verses');
+                if (game2Verses) {
+                    try {
+                        const verses = JSON.parse(game2Verses);
+                        if (verses.length < 100) {
+                            // Datos corruptos: limpiar automáticamente
+                            console.log('🔧 Limpiando datos corruptos automáticamente...');
+                            limpiarGame2();
+                        }
+                    } catch (e) {
+                        console.error('Error detectando corrupción');
+                    }
+                }
+            }, 500);
+        });
+    </script>
+</body>
+</html>

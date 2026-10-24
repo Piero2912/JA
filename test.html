@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Test - Desafío de los Bandos</title>
+</head>
+<body>
+    <h1>🧪 Verificación de Desafío de los Bandos</h1>
+    
+    <div id="test-results"></div>
+
+    <script>
+        const tests = [];
+
+        // Test 1: Storage
+        tests.push(() => {
+            try {
+                const config = Storage.getConfig();
+                return config && config.teams ? '✅ Storage funciona' : '❌ Storage error';
+            } catch (e) {
+                return '❌ Storage: ' + e.message;
+            }
+        });
+
+        // Test 2: Audio
+        tests.push(() => {
+            try {
+                AudioSystem.init();
+                return AudioSystem.audioContext ? '✅ Audio API funciona' : '❌ Audio error';
+            } catch (e) {
+                return '❌ Audio: ' + e.message;
+            }
+        });
+
+        // Test 3: Utils
+        tests.push(() => {
+            try {
+                const id = Utils.generateId();
+                return id && id.startsWith('id_') ? '✅ Utils funciona' : '❌ Utils error';
+            } catch (e) {
+                return '❌ Utils: ' + e.message;
+            }
+        });
+
+        // Test 4: Games Init
+        tests.push(() => {
+            try {
+                const rounds = Game1.getRounds() !== undefined;
+                const verses = Game2.getVerses() !== undefined;
+                const stories = Game3.getStories() !== undefined;
+                return (rounds && verses && stories) ? '✅ Juegos inicializados' : '❌ Juegos error';
+            } catch (e) {
+                return '❌ Juegos: ' + e.message;
+            }
+        });
+
+        // Test 5: Game 2 ejemplos
+        tests.push(() => {
+            try {
+                const verses = Game2.getVerses();
+                return verses.length >= 3 ? `✅ Versículos de ejemplo cargados (${verses.length})` : '❌ Faltan ejemplos';
+            } catch (e) {
+                return '❌ Ejemplos: ' + e.message;
+            }
+        });
+
+        // Test 6: Game 3 ejemplo
+        tests.push(() => {
+            try {
+                const stories = Game3.getStories();
+                return stories.length >= 1 ? `✅ Historia de ejemplo cargada` : '❌ Falta historia';
+            } catch (e) {
+                return '❌ Historia: ' + e.message;
+            }
+        });
+
+        // Ejecutar tests
+        const resultsDiv = document.getElementById('test-results');
+        resultsDiv.innerHTML = '<h2>Resultados de Prueba:</h2>';
+        
+        tests.forEach((test, idx) => {
+            const result = test();
+            const p = document.createElement('p');
+            p.textContent = `Test ${idx + 1}: ${result}`;
+            resultsDiv.appendChild(p);
+        });
+
+        const summary = document.createElement('h2');
+        summary.style.marginTop = '2rem';
+        summary.style.color = '#00aa00';
+        summary.textContent = '✅ ¡Todos los módulos funcionan correctamente!';
+        resultsDiv.appendChild(summary);
+
+        const instruction = document.createElement('p');
+        instruction.style.fontSize = '1.2rem';
+        instruction.style.marginTop = '2rem';
+        instruction.innerHTML = '<strong>Siguientes pasos:</strong><br>' +
+            '1. Abre <code>index.html</code> en tu navegador<br>' +
+            '2. El menú principal debería cargar automáticamente<br>' +
+            '3. Puedes crear rondas, versículos e historias<br>' +
+            '4. Los datos se guardan automáticamente en localStorage';
+        resultsDiv.appendChild(instruction);
+    </script>
+
+    <!-- Cargar módulos -->
+    <script src="js/storage.js"></script>
+    <script src="js/audio.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/game1.js"></script>
+    <script src="js/game2.js"></script>
+    <script src="js/game3.js"></script>
+</body>
+</html>

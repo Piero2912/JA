@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Generador de Imágenes de Ejemplo</title>
+</head>
+<body>
+    <h1>Generador de Imágenes de Ejemplo para Juego 1</h1>
+    <p>Este archivo genera imágenes de ejemplo en formato base64.</p>
+    <p>Copia los siguientes bloques de código y guardalos como archivos .txt o úsalos en el editor.</p>
+
+    <script>
+        // Crear canvas para generar imágenes
+        function generateExampleImages() {
+            // Imagen 1: Arca de Noé
+            const canvas1 = document.createElement('canvas');
+            canvas1.width = 800;
+            canvas1.height = 600;
+            const ctx1 = canvas1.getContext('2d');
+            
+            // Fondo azul (agua)
+            ctx1.fillStyle = '#4488ff';
+            ctx1.fillRect(0, 300, 800, 300);
+            
+            // Arca (marrón)
+            ctx1.fillStyle = '#8b4513';
+            ctx1.fillRect(200, 150, 400, 150);
+            ctx1.fillRect(250, 100, 300, 50);
+            
+            // Arcoíris
+            ctx1.strokeStyle = '#ff0000';
+            ctx1.lineWidth = 3;
+            ctx1.beginPath();
+            ctx1.arc(400, 200, 150, Math.PI, 0);
+            ctx1.stroke();
+            
+            ctx1.strokeStyle = '#ffff00';
+            ctx1.beginPath();
+            ctx1.arc(400, 200, 130, Math.PI, 0);
+            ctx1.stroke();
+            
+            // Aves (palomas)
+            ctx1.fillStyle = '#cccccc';
+            ctx1.beginPath();
+            ctx1.arc(100, 100, 20, 0, Math.PI * 2);
+            ctx1.fill();
+            ctx1.beginPath();
+            ctx1.arc(700, 120, 20, 0, Math.PI * 2);
+            ctx1.fill();
+            
+            const img1 = canvas1.toDataURL('image/png');
+
+            // Imagen 2: Multiplicación de panes
+            const canvas2 = document.createElement('canvas');
+            canvas2.width = 800;
+            canvas2.height = 600;
+            const ctx2 = canvas2.getContext('2d');
+            
+            // Fondo beige (tierra)
+            ctx2.fillStyle = '#d4a574';
+            ctx2.fillRect(0, 0, 800, 600);
+            
+            // Cielo
+            ctx2.fillStyle = '#87ceeb';
+            ctx2.fillRect(0, 0, 800, 300);
+            
+            // Panes (rectángulos marrones)
+            const panPositions = [
+                {x: 150, y: 350},
+                {x: 300, y: 380},
+                {x: 450, y: 350},
+                {x: 600, y: 370},
+                {x: 200, y: 450},
+                {x: 400, y: 470},
+                {x: 600, y: 450}
+            ];
+            
+            ctx2.fillStyle = '#cc8844';
+            panPositions.forEach(pos => {
+                ctx2.fillRect(pos.x, pos.y, 80, 40);
+            });
+            
+            // Peces
+            ctx2.fillStyle = '#ff6600';
+            ctx2.beginPath();
+            ctx2.ellipse(100, 500, 50, 30, 0, 0, Math.PI * 2);
+            ctx2.fill();
+            
+            ctx2.beginPath();
+            ctx2.ellipse(700, 480, 50, 30, 0, 0, Math.PI * 2);
+            ctx2.fill();
+            
+            const img2 = canvas2.toDataURL('image/png');
+
+            // Imagen 3: David y Goliat
+            const canvas3 = document.createElement('canvas');
+            canvas3.width = 800;
+            canvas3.height = 600;
+            const ctx3 = canvas3.getContext('2d');
+            
+            // Cielo
+            ctx3.fillStyle = '#87ceeb';
+            ctx3.fillRect(0, 0, 800, 600);
+            
+            // Tierra
+            ctx3.fillStyle = '#90ee90';
+            ctx3.fillRect(0, 400, 800, 200);
+            
+            // Goliat (gigante - izquierda)
+            ctx3.fillStyle = '#cc0000';
+            ctx3.fillRect(100, 200, 80, 200);
+            ctx3.fillStyle = '#ffcc99';
+            ctx3.beginPath();
+            ctx3.arc(140, 180, 40, 0, Math.PI * 2);
+            ctx3.fill();
+            
+            // David (pequeño - derecha)
+            ctx3.fillStyle = '#0066cc';
+            ctx3.fillRect(600, 320, 50, 80);
+            ctx3.fillStyle = '#ffcc99';
+            ctx3.beginPath();
+            ctx3.arc(625, 310, 20, 0, Math.PI * 2);
+            ctx3.fill();
+            
+            // Piedra en el aire
+            ctx3.fillStyle = '#666666';
+            ctx3.beginPath();
+            ctx3.arc(350, 250, 15, 0, Math.PI * 2);
+            ctx3.fill();
+            
+            const img3 = canvas3.toDataURL('image/png');
+
+            // Mostrar resultados
+            const resultsDiv = document.createElement('div');
+            resultsDiv.innerHTML = `
+                <h2>Imágenes Generadas:</h2>
+                
+                <h3>1. Arca de Noé</h3>
+                <img src="${img1}" style="max-width: 300px; border: 1px solid black;">
+                <p><strong>Base64:</strong></p>
+                <textarea readonly style="width: 100%; height: 100px;">${img1}</textarea>
+                
+                <h3>2. Multiplicación de Panes</h3>
+                <img src="${img2}" style="max-width: 300px; border: 1px solid black;">
+                <p><strong>Base64:</strong></p>
+                <textarea readonly style="width: 100%; height: 100px;">${img2}</textarea>
+                
+                <h3>3. David y Goliat</h3>
+                <img src="${img3}" style="max-width: 300px; border: 1px solid black;">
+                <p><strong>Base64:</strong></p>
+                <textarea readonly style="width: 100%; height: 100px;">${img3}</textarea>
+                
+                <h2>Instrucciones:</h2>
+                <ol>
+                    <li>Guarda cada imagen base64 en un archivo .txt</li>
+                    <li>O copia el base64 directamente al crear una ronda en Juego 1</li>
+                    <li>Las imágenes se guardarán automáticamente en localStorage</li>
+                </ol>
+            `;
+            
+            document.body.appendChild(resultsDiv);
+        }
+
+        // Generar al cargar
+        window.addEventListener('load', generateExampleImages);
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f0f0f0;
+        }
+        textarea {
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+        }
+        img {
+            margin: 20px 0;
+        }
+    </style>
+</body>
+</html>
